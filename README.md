@@ -1,4 +1,4 @@
-# hello from joe
+# Welcome to Conquestadors!
 
 You can use the [editor on GitHub](https://github.com/julianeverett/conquestadors/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
