@@ -19,7 +19,7 @@
 <body>
   <h1>Rowan's Awesome Snowboarding Times Tables Tester</h1>
   <h4>Select your times tables:</h4>
-  <input type="checkbox" name="table" value="2" id="table2"><label for="table2">2</label>
+  <input type="checkbox" name="table" value="2" id="table2" disabled="true"><label for="table2">2</label>
   <input type="checkbox" name="table" value="3" id="table3"><label for="table3">3</label>
   <input type="checkbox" name="table" value="4" id="table4"><label for="table4">4</label>
   <input type="checkbox" name="table" value="5" id="table5"><label for="table5">5</label>
@@ -37,7 +37,7 @@
   <br>
   <br>
   <button type="button" id="learn" onclick="learn()"><p>Learn The Route</p></button>
-  <button type="button" id="reset" onclick="reset()"><p>Get Ready...</p></button>
+  <button type="button" id="reset" onclick="reset()"><p>Ready?...</p></button>
   <button type="button" id="go" onclick="go()"><p>LET'S RIDE!!!</p></button>
   <div id="revise" class="hide">
     <h4>Let's Learn!</h4>
@@ -56,6 +56,7 @@
     const TIMEOUT_ANSWER = 3300;
     let TIMEOUT = TIMEOUT_LEARNER;
     let active = false;
+    let timer = 0;
 
     function learn() {
       const tables = getTables();
@@ -76,6 +77,7 @@
 
     function reset() {
       active = false;
+      clearTimeout(timer);
       document.getElementById('revise').className = 'hide';
       document.getElementById('test').className = 'hide';
       document.getElementById('tables').innerHTML= '<p></p>';
@@ -104,7 +106,7 @@
           document.getElementById('answer').className = 'show';
           document.getElementById('question').innerHTML= html;
           document.getElementById('answer').value = '';
-          setTimeout(function() { checkAnswer(tables, question, answer, qNo, summary); }, TIMEOUT);
+          timer = setTimeout(function() { checkAnswer(tables, question, answer, qNo, summary); }, TIMEOUT);
         } else {
           if (summary.correctAnswers > 27) {
             document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30.<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
