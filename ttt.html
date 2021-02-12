@@ -53,7 +53,7 @@
 
     const TIMEOUT_LEARNER = 8000;
     const TIMEOUT_PRO = 5000;
-    const TIMEOUT_ANSWER = 3200;
+    const TIMEOUT_ANSWER = 3300;
     let TIMEOUT = TIMEOUT_LEARNER;
     let active = false;
 
@@ -116,11 +116,15 @@
     }
 
     function checkAnswer(tables, question, answer, qNo, summary) {
-      const suffix = Math.ceil(3 * Math.random()).toString();
+      const suffix = Math.ceil(2 * Math.random()).toString();
       if (parseInt(document.getElementById('answer').value) === answer) {
         summary.correctAnswers++;
         // document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
-        document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif"/>';
+        if (suffix === '1') {
+          document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3o7TKM7nlyAghQ7qnu/giphy.gif"/>';
+        } else {
+          document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif"/>';
+        }
       } else {
         // document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
         document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif"/>';
