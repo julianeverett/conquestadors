@@ -31,6 +31,10 @@
   <input type="checkbox" name="table" value="11" id="table11"><label for="table11">11</label>
   <input type="checkbox" name="table" value="12" id="table12"><label for="table12">12</label>
   <br>
+  <h4>Select your mode:</h4>
+  <input type="radio" name="mode" value="l" id="model" checked="true"><label for="model">Learner Dude</label>
+  <input type="radio" name="mode" value="p" id="modep"><label for="modep">Super Megapro</label>
+  <br>
   <br>
   <button type="button" id="learn" onclick="learn()"><p>LEARN</p></button>
   <button type="button" id="reset" onclick="reset()"><p>CLEAR</p></button>
@@ -47,8 +51,10 @@
   </div>
   <script type="text/javascript">
 
-    const TIMEOUT = 5000;
+    const TIMEOUT_LEARNER = 8000;
+    const TIMEOUT_PRO = 5000;
     const TIMEOUT_ANSWER = 2000;
+    let TIMEOUT = TIMEOUT_LEARNER;
     let active = false;
 
     function learn() {
@@ -74,6 +80,7 @@
     }
 
     function go() {
+      TIMEOUT = document.getElementById("model").checked ? TIMEOUT_LEARNER : TIMEOUT_PRO;
       document.getElementById('revise').className = 'hide';
       document.getElementById('test').className = 'show';
       const tables = getTables();
@@ -98,7 +105,7 @@
           if (correctQuestions > 27) {
             document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+correctQuestions.toString()+' out of 30.';
           } else {
-            document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';            
+            document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';
           }
           document.getElementById('answer').className = 'hide';
         }
