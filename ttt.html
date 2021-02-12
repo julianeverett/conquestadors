@@ -33,7 +33,7 @@
   <br>
   <h4>Select your mode:</h4>
   <input type="radio" name="mode" value="l" id="model" checked="true"><label for="model">Learner Dude</label>
-  <input type="radio" name="mode" value="p" id="modep"><label for="modep">Super Megapro</label>
+  <input type="radio" name="mode" value="p" id="modep"><label for="modep">Pro Super-dude</label>
   <br>
   <br>
   <button type="button" id="learn" onclick="learn()"><p>LEARN</p></button>
@@ -45,7 +45,7 @@
     </span>
   </div>
   <div id="test" class="hide">
-    <h4 id="question">What is 3 x 6?</h4>
+    <h4 id="question"></h4>
     <input type="text" id="answer">
     <div id="result"></div>
   </div>
@@ -53,7 +53,7 @@
 
     const TIMEOUT_LEARNER = 8000;
     const TIMEOUT_PRO = 5000;
-    const TIMEOUT_ANSWER = 2000;
+    const TIMEOUT_ANSWER = 3200;
     let TIMEOUT = TIMEOUT_LEARNER;
     let active = false;
 
@@ -80,50 +80,57 @@
     }
 
     function go() {
-      TIMEOUT = document.getElementById("model").checked ? TIMEOUT_LEARNER : TIMEOUT_PRO;
-      document.getElementById('revise').className = 'hide';
-      document.getElementById('test').className = 'show';
       const tables = getTables();
       if (tables.length > 0) {
+        TIMEOUT = document.getElementById("model").checked ? TIMEOUT_LEARNER : TIMEOUT_PRO;
+        document.getElementById('revise').className = 'hide';
+        document.getElementById('test').className = 'show';
         active = true;
-        setQuestion(tables, 1, 0);
+        setQuestion(tables, 1, {correctAnswers: 0, wrongQuestions:[] });
       }
     }
 
-    function setQuestion(tables, qNo, correctQuestions) {
-      if (active) {
+    function setQuestion(tables, qNo, summary) {
+     document.getElementById('result').innerHTML='';
+     if (active) {
         if (qNo <= 30) {
           const i = Math.floor(tables.length * Math.random());
           const j = Math.ceil(12 * Math.random());
-          html = qNo.toString()+'. What is '+j.toString()+' x '+tables[i].toString()+ '?';
+          const question = j.toString()+' x '+tables[i].toString();
+          html = qNo.toString()+'. What is '+question+ '?';
           const answer = j * tables[i];
           document.getElementById('answer').className = 'show';
           document.getElementById('question').innerHTML= html;
           document.getElementById('answer').value = '';
-          setTimeout(function() { checkAnswer(tables, answer, qNo, correctQuestions); }, TIMEOUT);
+          setTimeout(function() { checkAnswer(tables, question, answer, qNo, summary); }, TIMEOUT);
         } else {
-          if (correctQuestions > 27) {
-            document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+correctQuestions.toString()+' out of 30.<br><br><img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif">';
+          if (summary.correctAnswers > 27) {
+            document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30.<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
           } else {
-            document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';
+            document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
+            document.getElementById('result').innerHTML= '<p>You got the following questions wrong: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
           }
           document.getElementById('answer').className = 'hide';
         }
       }
     }
 
-    function checkAnswer(tables, answer, qNo, correctQuestions) {
+    function checkAnswer(tables, question, answer, qNo, summary) {
       const suffix = Math.ceil(3 * Math.random()).toString();
       if (parseInt(document.getElementById('answer').value) === answer) {
-        correctQuestions++;
-        document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
+        summary.correctAnswers++;
+        // document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
+        document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="https://media.giphy.com/media/3o7qDVArtXdtl223Ek/giphy.gif"/>';
       } else {
-        document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
+        //document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
+        document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif"/>';
+        if (summary.wrongQuestions.indexOf(question) === -1 ) {
+          summary.wrongQuestions.push(question);
+        }
       };
       setTimeout(function() {
         qNo++;
-        document.getElementById('result').innerHTML='';
-        setQuestion(tables, qNo, correctQuestions);
+        setQuestion(tables, qNo, summary);
       }, TIMEOUT_ANSWER);
     }
 
