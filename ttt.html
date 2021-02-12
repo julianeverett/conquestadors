@@ -17,7 +17,7 @@
   </style>
 </head>
 <body>
-  <h1>Rowan's Times Tables Tester</h1>
+  <h1>Rowan's Snowboarding Awesome Times Tables Tester</h1>
   <h4>Select your times tables:</h4>
   <input type="checkbox" name="table" value="2" id="table2"><label for="table2">2</label>
   <input type="checkbox" name="table" value="3" id="table3"><label for="table3">3</label>
@@ -120,9 +120,9 @@
       if (parseInt(document.getElementById('answer').value) === answer) {
         summary.correctAnswers++;
         // document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
-        document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="https://media.giphy.com/media/3o7qDVArtXdtl223Ek/giphy.gif"/>';
+        document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif"/>';
       } else {
-        //document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
+        // document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
         document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif"/>';
         if (summary.wrongQuestions.indexOf(question) === -1 ) {
           summary.wrongQuestions.push(question);
