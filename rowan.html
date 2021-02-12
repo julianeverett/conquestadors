@@ -112,7 +112,7 @@
             document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30.<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
           } else {
             document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
-            document.getElementById('result').innerHTML= '<p>You got the following questions wrong: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
+            document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
           }
           document.getElementById('answer').className = 'hide';
         }
