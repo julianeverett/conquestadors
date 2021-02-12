@@ -17,7 +17,7 @@
   </style>
 </head>
 <body>
-  <h1>Rowan's Snowboarding Awesome Times Tables Tester</h1>
+  <h1>Rowan's Awesome Snowboarding Times Tables Tester</h1>
   <h4>Select your times tables:</h4>
   <input type="checkbox" name="table" value="2" id="table2"><label for="table2">2</label>
   <input type="checkbox" name="table" value="3" id="table3"><label for="table3">3</label>
@@ -31,14 +31,14 @@
   <input type="checkbox" name="table" value="11" id="table11"><label for="table11">11</label>
   <input type="checkbox" name="table" value="12" id="table12"><label for="table12">12</label>
   <br>
-  <h4>Select your mode:</h4>
+  <h4>Select your speed:</h4>
   <input type="radio" name="mode" value="l" id="model" checked="true"><label for="model">Learner Dude</label>
-  <input type="radio" name="mode" value="p" id="modep"><label for="modep">Pro Super-dude</label>
+  <input type="radio" name="mode" value="p" id="modep"><label for="modep">Pro Superdude</label>
   <br>
   <br>
-  <button type="button" id="learn" onclick="learn()"><p>LEARN</p></button>
-  <button type="button" id="reset" onclick="reset()"><p>CLEAR</p></button>
-  <button type="button" id="go" onclick="go()"><p>GO!!!</p></button>
+  <button type="button" id="learn" onclick="learn()"><p>Learn The Route</p></button>
+  <button type="button" id="reset" onclick="reset()"><p>Get Ready...</p></button>
+  <button type="button" id="go" onclick="go()"><p>LET'S RIDE!!!</p></button>
   <div id="revise" class="hide">
     <h4>Let's Learn!</h4>
     <span id="tables">
@@ -58,18 +58,20 @@
     let active = false;
 
     function learn() {
-      document.getElementById('revise').className = 'show';
-      document.getElementById('test').className = 'hide';
-      let html = '';
       const tables = getTables();
-      for (let i = 0; i < tables.length; i++) {
-        html += '<h5>'+tables[i].toString()+' Times Table</h5>';
-        for (let j = 1; j <= 12; j++) {
-          html += j.toString()+' x '+tables[i].toString()+' = '+(j * tables[i])+'<br/>';
+      if (tables.length > 0) {
+        document.getElementById('revise').className = 'show';
+        document.getElementById('test').className = 'hide';
+        let html = '';
+        for (let i = 0; i < tables.length; i++) {
+          html += '<h5>'+tables[i].toString()+' Times Table</h5>';
+          for (let j = 1; j <= 12; j++) {
+            html += j.toString()+' x '+tables[i].toString()+' = '+(j * tables[i])+'<br/>';
+          }
+          html += '<br/>';
         }
-        html += '<br/>';
+        document.getElementById('tables').innerHTML= '<div class="info">'+html+'</div>';
       }
-      document.getElementById('tables').innerHTML= '<div class="info">'+html+'</div>';
     }
 
     function reset() {
@@ -116,18 +118,26 @@
     }
 
     function checkAnswer(tables, question, answer, qNo, summary) {
-      const suffix = Math.ceil(2 * Math.random()).toString();
       if (parseInt(document.getElementById('answer').value) === answer) {
+        const index = Math.floor(6 * Math.random());
+        const images = [
+          "https://media.giphy.com/media/mI3J3e2v97T8Y/giphy.gif",
+          "https://media.giphy.com/media/3o7TKM7nlyAghQ7qnu/giphy.gif",
+          "https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif",
+          "https://media.giphy.com/media/XX64f9t4zEScg/giphy.gif",
+          "https://media.giphy.com/media/RhqPgkl96IFGlYypUS/giphy.gif",
+          "https://media.giphy.com/media/XzXyItpdrcR19Wlk2j/giphy.gif"
+        ];
         summary.correctAnswers++;
         // document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
-        if (suffix === '1') {
-          document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3o7TKM7nlyAghQ7qnu/giphy.gif"/>';
-        } else {
-          document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif"/>';
-        }
+        document.getElementById('result').innerHTML='<h4>Hurray!!! Well done - keep going!!</h4><img src="'+images[index]+'"/>';
       } else {
+        const index = 0;
+        const images = [
+          "https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif"
+        ];
         // document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
-        document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif"/>';
+        document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="'+images[index]+'"/>';
         if (summary.wrongQuestions.indexOf(question) === -1 ) {
           summary.wrongQuestions.push(question);
         }
