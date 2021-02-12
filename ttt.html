@@ -48,6 +48,7 @@
   <script type="text/javascript">
 
     const TIMEOUT = 5000;
+    const TIMEOUT_ANSWER = 2000;
 
     function learn() {
       document.getElementById('revise').className = 'show';
@@ -75,33 +76,39 @@
       document.getElementById('test').className = 'show';
       const tables = getTables();
       if (tables.length > 0) {
-        setQuestion(tables, 1);
+        setQuestion(tables, 1, 0);
       }
     }
 
-    function setQuestion(tables, qNo) {
+    function setQuestion(tables, qNo, correctQuestions) {
       if (qNo <= 30) {
         const i = Math.floor(tables.length * Math.random());
         const j = Math.ceil(12 * Math.random());
         html = qNo.toString()+'. What is '+j.toString()+' x '+tables[i].toString()+ '?';
         const answer = j * tables[i];
-        document.getElementById('question').innerHTML= html;
+         document.getElementById('answer').className = 'show';
+       document.getElementById('question').innerHTML= html;
         document.getElementById('answer').value = '';
-        setTimeout(function() { checkAnswer(tables, answer, qNo); }, TIMEOUT);
+        setTimeout(function() { checkAnswer(tables, answer, qNo, correctQuestions); }, TIMEOUT);
+      } else {
+        document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';
+        document.getElementById('answer').className = 'hide';
       }
     }
 
-    function checkAnswer(tables, answer, qNo) {
+    function checkAnswer(tables, answer, qNo, correctQuestions) {
       const suffix = Math.ceil(3 * Math.random()).toString();
       if (parseInt(document.getElementById('answer').value) === answer) {
+        correctQuestions++;
         document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
       } else {
         document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
       };
       setTimeout(function() {
+        qNo++;
         document.getElementById('result').innerHTML='';
-        setQuestion(tables, qNo++);
-      }, 2000);
+        setQuestion(tables, qNo, correctQuestions);
+      }, TIMEOUT_ANSWER);
     }
 
     function getTables() {
