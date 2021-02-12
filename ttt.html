@@ -49,6 +49,7 @@
 
     const TIMEOUT = 5000;
     const TIMEOUT_ANSWER = 2000;
+    let active = false;
 
     function learn() {
       document.getElementById('revise').className = 'show';
@@ -66,6 +67,7 @@
     }
 
     function reset() {
+      active = false;
       document.getElementById('revise').className = 'hide';
       document.getElementById('test').className = 'hide';
       document.getElementById('tables').innerHTML= '<p></p>';
@@ -76,23 +78,30 @@
       document.getElementById('test').className = 'show';
       const tables = getTables();
       if (tables.length > 0) {
+        active = true;
         setQuestion(tables, 1, 0);
       }
     }
 
     function setQuestion(tables, qNo, correctQuestions) {
-      if (qNo <= 30) {
-        const i = Math.floor(tables.length * Math.random());
-        const j = Math.ceil(12 * Math.random());
-        html = qNo.toString()+'. What is '+j.toString()+' x '+tables[i].toString()+ '?';
-        const answer = j * tables[i];
-         document.getElementById('answer').className = 'show';
-       document.getElementById('question').innerHTML= html;
-        document.getElementById('answer').value = '';
-        setTimeout(function() { checkAnswer(tables, answer, qNo, correctQuestions); }, TIMEOUT);
-      } else {
-        document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';
-        document.getElementById('answer').className = 'hide';
+      if (active) {
+        if (qNo <= 30) {
+          const i = Math.floor(tables.length * Math.random());
+          const j = Math.ceil(12 * Math.random());
+          html = qNo.toString()+'. What is '+j.toString()+' x '+tables[i].toString()+ '?';
+          const answer = j * tables[i];
+          document.getElementById('answer').className = 'show';
+          document.getElementById('question').innerHTML= html;
+          document.getElementById('answer').value = '';
+          setTimeout(function() { checkAnswer(tables, answer, qNo, correctQuestions); }, TIMEOUT);
+        } else {
+          if (correctQuestions > 27) {
+            document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+correctQuestions.toString()+' out of 30.';
+          } else {
+            document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';            
+          }
+          document.getElementById('answer').className = 'hide';
+        }
       }
     }
 
