@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <title>Times Tables Tester</title>
+  <style>
+    body { font-family: Verdana, Arial, Helvetica; background-image: url(snowboarder.jpg) }
+    h1 { font-size: 40px; color: #111166 }
+    h4 { font-size: 15px }
+    input {  padding: 7px; font-size: 12px }
+    button p {  padding: 0 5px 0 5px; margin: 8px; font-weight: bold }
+    .hide { display: none }
+    .show { display: block }
+    img {padding: 10px; }
+    .info { background: #111166; width: 300px; color: #ffffff; font-size: 18px; padding: 20px}
+  </style>
+</head>
+<body>
+  <h1>Rowan's Times Tables Tester</h1>
+  <h4>Select your times tables:</h4>
+  <input type="checkbox" name="table" value="2" id="table2"><label for="table2">2</label>
+  <input type="checkbox" name="table" value="3" id="table3"><label for="table3">3</label>
+  <input type="checkbox" name="table" value="4" id="table4"><label for="table4">4</label>
+  <input type="checkbox" name="table" value="5" id="table5"><label for="table5">5</label>
+  <input type="checkbox" name="table" value="6" id="table6"><label for="table6">6</label>
+  <input type="checkbox" name="table" value="7" id="table7"><label for="table7">7</label>
+  <input type="checkbox" name="table" value="8" id="table8"><label for="table8">8</label>
+  <input type="checkbox" name="table" value="9" id="table9"><label for="table9">9</label>
+  <input type="checkbox" name="table" value="10" id="table10"><label for="table10">10</label>
+  <input type="checkbox" name="table" value="11" id="table11"><label for="table11">11</label>
+  <input type="checkbox" name="table" value="12" id="table12"><label for="table12">12</label>
+  <br>
+  <br>
+  <button type="button" id="learn" onclick="learn()"><p>LEARN</p></button>
+  <button type="button" id="reset" onclick="reset()"><p>CLEAR</p></button>
+  <button type="button" id="go" onclick="go()"><p>GO!!!</p></button>
+  <div id="revise" class="hide">
+    <h4>Let's Learn!</h4>
+    <span id="tables">
+    </span>
+  </div>
+  <div id="test" class="hide">
+    <h4 id="question">What is 3 x 6?</h4>
+    <input type="text" id="answer">
+    <div id="result"></div>
+  </div>
+  <script type="text/javascript">
+
+    const TIMEOUT = 5000;
+
+    function learn() {
+      document.getElementById('revise').className = 'show';
+      document.getElementById('test').className = 'hide';
+      let html = '';
+      const tables = getTables();
+      for (let i = 0; i < tables.length; i++) {
+        html += '<h5>'+tables[i].toString()+' Times Table</h5>';
+        for (let j = 1; j <= 12; j++) {
+          html += j.toString()+' x '+tables[i].toString()+' = '+(j * tables[i])+'<br/>';
+        }
+        html += '<br/>';
+      }
+      document.getElementById('tables').innerHTML= '<div class="info">'+html+'</div>';
+    }
+
+    function reset() {
+      document.getElementById('revise').className = 'hide';
+      document.getElementById('test').className = 'hide';
+      document.getElementById('tables').innerHTML= '<p></p>';
+    }
+
+    function go() {
+      document.getElementById('revise').className = 'hide';
+      document.getElementById('test').className = 'show';
+      const tables = getTables();
+      if (tables.length > 0) {
+        setQuestion(tables, 1);
+      }
+    }
+
+    function setQuestion(tables, qNo) {
+      if (qNo <= 30) {
+        const i = Math.floor(tables.length * Math.random());
+        const j = Math.ceil(12 * Math.random());
+        html = qNo.toString()+'. What is '+j.toString()+' x '+tables[i].toString()+ '?';
+        const answer = j * tables[i];
+        document.getElementById('question').innerHTML= html;
+        document.getElementById('answer').value = '';
+        setTimeout(function() { checkAnswer(tables, answer, qNo); }, TIMEOUT);
+      }
+    }
+
+    function checkAnswer(tables, answer, qNo) {
+      const suffix = Math.ceil(3 * Math.random()).toString();
+      if (parseInt(document.getElementById('answer').value) === answer) {
+        document.getElementById('result').innerHTML='<h4>Hurray!!!!</h4><img src="right'+suffix+'.jpg"/>';
+      } else {
+        document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="wrong'+suffix+'.jpg"/>';
+      };
+      setTimeout(function() {
+        document.getElementById('result').innerHTML='';
+        setQuestion(tables, qNo++);
+      }, 2000);
+    }
+
+    function getTables() {
+      const checkboxes = document.getElementsByName("table");
+      const tables = [];
+      for (let i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            tables.push(checkboxes[i].value);
+          }
+      }
+      return tables;
+    }
+  </script>
+</body>
+</htmL
