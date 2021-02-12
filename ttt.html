@@ -103,7 +103,7 @@
           setTimeout(function() { checkAnswer(tables, answer, qNo, correctQuestions); }, TIMEOUT);
         } else {
           if (correctQuestions > 27) {
-            document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+correctQuestions.toString()+' out of 30.';
+            document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+correctQuestions.toString()+' out of 30.<br><br><img src="https://media.giphy.com/media/3oz8xAFtqoOUUrsh7W/giphy.gif">';
           } else {
             document.getElementById('question').innerHTML= 'You scored '+correctQuestions.toString()+' out of 30.';
           }
