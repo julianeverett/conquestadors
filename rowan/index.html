@@ -148,7 +148,7 @@
           } else {
             if (summary.correctAnswers > 27) {
               const num = getAwards();
-              document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new award'+(num > 1?'s':'')+'!<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
+              document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new board award'+(num > 1?'s':'')+'!<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
             } else {
               document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
               document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
