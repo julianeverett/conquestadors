@@ -151,8 +151,13 @@
             timer = setTimeout(function() { checkAnswer(); }, timeout);
           } else {
             if (summary.correctAnswers > 27) {
-              const num = getAwards();
-              document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new board award'+(num > 1?'s':'')+'!';
+              if (timeout === TIMEOUT_LEARNER) {
+                document.getElementById('question').innerHTML= 'Congratulations, you scored '+summary.correctAnswers.toString()+' out of 30!! You are now ready to go Pro Superdude!!!!';
+              } else {
+                const num = getAwards();
+                document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new Pro Board award'+(num > 1?'s':'')+'!';
+              }
+
             } else {
               document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
               document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
