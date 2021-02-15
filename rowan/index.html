@@ -5,13 +5,13 @@
   <meta content="utf-8" http-equiv="encoding">
   <title>Times Tables Tester</title>
   <style>
-    body { font-family: Verdana, Arial, Helvetica; background-image: url("snowboarder.jpg") }
+    body { font-family: Roboto, Verdana, Arial; font-size: 15px; background-image: url("snowboarder2.jpg") }
     #root { width: 100%; display: grid; grid-template-columns: 4fr 1fr; }
     #main { display: block; }
     #awards { display: block; }
     #award { display: inline-grid; padding 0; margin: 0; }
     #award p { text-align: center; padding 0; margin: 0; font-weight: bold; color: #110099; }
-    h1 { font-size: 35px; color: #111166 }
+    h1 { font-size: 30px; color: #111166; margin: 10px 0px 0px 0px; padding: 0px; }
     h4 { font-size: 15px }
     input {  padding: 7px; font-size: 12px }
     button {  margin: 10 15px 10 15px; padding: 8px; font-weight: bold; }
@@ -23,11 +23,11 @@
   </style>
 </head>
 <body>
-  <h1>Rowan's Awesome Snowboarding Times Tables Tester</h1>
+  <h1>Rowan's Awesome Snowboarding Times Table Tester</h1>
   <div id="root">
     <div id="main">
       <h4>Select your times tables:</h4>
-      <input type="checkbox" name="table" value="2" id="table2" disabled="true"><label for="table2">2</label>
+      <input type="checkbox" name="table" value="2" id="table2"><label for="table2">2</label>
       <input type="checkbox" name="table" value="3" id="table3"><label for="table3">3</label>
       <input type="checkbox" name="table" value="4" id="table4"><label for="table4">4</label>
       <input type="checkbox" name="table" value="5" id="table5"><label for="table5">5</label>
@@ -66,18 +66,21 @@
 
       const TIMEOUT_LEARNER = 8000;
       const TIMEOUT_PRO = 5000;
-      // const TIMEOUT_ANSWER = 3300;
+      const TIMEOUT_ANSWER = 3500;
       const IMAGES_SEND = [
-        { src: "https://media.giphy.com/media/mI3J3e2v97T8Y/giphy.gif", timeout: 15000 },
         { src: "https://media.giphy.com/media/3o7TKM7nlyAghQ7qnu/giphy.gif", timeout: 3300 },
         { src: "https://media.giphy.com/media/3ohjVbpfKFfqXIb9jW/giphy.gif", timeout: 3200 },
-        { src: "https://media.giphy.com/media/XX64f9t4zEScg/giphy.gif", timeout: 10000 },
         { src: "https://media.giphy.com/media/RhqPgkl96IFGlYypUS/giphy.gif", timeout: 6000 },
         { src: "https://media.giphy.com/media/XzXyItpdrcR19Wlk2j/giphy.gif", timeout: 3200 },
-        { src: "https://media.giphy.com/media/fwbmUDmp1YpA8wv7rF/giphy.gif", timeout: 7000 },
         { src: "https://media.giphy.com/media/jxxwzWDiD3RJWD1PvL/giphy.gif", timeout: 2800 },
         { src: "https://media.giphy.com/media/K50RV8ycNzZte/giphy.gif", timeout: 4500 }
       ];
+      const IMAGES_SEND_PRO = IMAGES_SEND.concat([
+        { src: "https://media.giphy.com/media/mI3J3e2v97T8Y/giphy.gif", timeout: 12000 },
+        { src: "https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif", timeout: 15000 },
+        { src: "https://media.giphy.com/media/XX64f9t4zEScg/giphy.gif", timeout: 10000 },
+        { src: "https://media.giphy.com/media/fwbmUDmp1YpA8wv7rF/giphy.gif", timeout: 7000 }
+      ]);
       const IMAGES_FAIL = [
         { src: "https://media.giphy.com/media/3o7WIK06ZsP1otF7na/giphy.gif", timeout: 3300 },
         { src: "https://media.giphy.com/media/9V5kiNQeEjYCOYOI0b/giphy.gif", timeout: 2200 },
@@ -134,6 +137,7 @@
 
       const setQuestion = () => {
         document.getElementById('result').innerHTML='';
+        document.getElementById('answer').readOnly = false;
         if (active) {
           if (qNo <= 30) {
             const i = Math.floor(tables.length * Math.random());
@@ -148,7 +152,7 @@
           } else {
             if (summary.correctAnswers > 27) {
               const num = getAwards();
-              document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new board award'+(num > 1?'s':'')+'!<br><br><img src="https://media.giphy.com/media/f8Fsf1EVVRslO/giphy.gif">';
+              document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new board award'+(num > 1?'s':'')+'!';
             } else {
               document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
               document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
@@ -160,21 +164,31 @@
 
       const checkAnswer = () => {
         clearTimeout(timer);
+        let images;
         let image;
-        if (parseInt(document.getElementById('answer').value) === answer) {
-          const index = Math.floor(9 * Math.random());
-          image = IMAGES_SEND[index];
-          document.getElementById('result').innerHTML='<h4>Nice!!! Well done, keep going!!!</h4><img src="'+image.src+'"/>';
+        let msg;
+        const resultNode = document.getElementById('result');
+        document.getElementById('answer').readOnly = true;
+        if (document.getElementById('answer').value === answer.toString()) {
+          images = (timeout === TIMEOUT_LEARNER ? IMAGES_SEND : IMAGES_SEND_PRO);
+          const index = Math.floor(images.length * Math.random());
+          image = images[index];
+          msg = '<h4>Wow!! Great work, keep going!!!</h4>';
+          resultNode.innerHTML = msg+'<img src="'+image.src+'"/>';
           summary.correctAnswers++;
+          timer = setTimeout(() => { qNo++; setQuestion(); }, image.timeout);
         } else {
-          const index = Math.floor(3 * Math.random());
-          image = IMAGES_FAIL[index];
-          document.getElementById('result').innerHTML='<h4><i>Uh oh. The answer was '+answer+'.</i></h4><img src="'+image.src+'"/>';
+          images = IMAGES_FAIL;
+          const index = Math.floor(images.length * Math.random());
+          image = images[index];
+          msg = '<h4><i>Uh oh. The answer was '+answer+'.</i></h4>';
+          resultNode.innerHTML = msg+'<img src="'+image.src+'"/>';
           if (summary.wrongQuestions.indexOf(question) === -1 ) {
             summary.wrongQuestions.push(question);
           }
+          setTimeout(() => { if (resultNode.innerHTML) resultNode.innerHTML=msg; }, image.timeout);
+          timer = setTimeout(() => { qNo++; setQuestion(); }, TIMEOUT_ANSWER);
         };
-        setTimeout(() => { qNo++; setQuestion(); }, image.timeout);
       };
 
       const getTables = () => {
