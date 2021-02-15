@@ -155,7 +155,7 @@
           } else {
             if (summary.correctAnswers > 27) {
               if (timeout === TIMEOUT_LEARNER) {
-                document.getElementById('question').innerHTML= 'Congratulations, you scored '+summary.correctAnswers.toString()+' out of 30!! You are now ready to go Pro Superdude!!!!';
+                document.getElementById('question').innerHTML= 'Congratulations, you scored '+summary.correctAnswers.toString()+' out of 30!! You are now ready to go pro superdude!!!!';
               } else {
                 const num = getAwards();
                 document.getElementById('question').innerHTML= 'Congratulations, you passed!!!! You scored '+summary.correctAnswers.toString()+' out of 30, and have won '+num+' new Pro Board award'+(num > 1?'s':'')+'!';
