@@ -123,15 +123,18 @@
       }
 
       const go = () => {
-        tables = getTables();
-        qNo = 1;
-        summary = {correctAnswers: 0, wrongQuestions:[] };
-        if (tables.length > 0) {
-          timeout = document.getElementById("model").checked ? TIMEOUT_LEARNER : TIMEOUT_PRO;
-          document.getElementById('revise').className = 'hide';
-          document.getElementById('test').className = 'show';
-          active = true;
-          setQuestion();
+        reset();
+        if (!active) {
+          tables = getTables();
+          qNo = 1;
+          summary = {correctAnswers: 0, wrongQuestions:[] };
+          if (tables.length > 0) {
+            timeout = document.getElementById("model").checked ? TIMEOUT_LEARNER : TIMEOUT_PRO;
+            document.getElementById('revise').className = 'hide';
+            document.getElementById('test').className = 'show';
+            active = true;
+            setQuestion();
+          }
         }
       };
 
@@ -160,7 +163,7 @@
 
             } else {
               document.getElementById('question').innerHTML= 'You scored '+summary.correctAnswers.toString()+' out of 30.';
-              document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br>'+summary.wrongQuestions.join('<br>')+'</p>';
+              document.getElementById('result').innerHTML= '<p>You got the following questions wrong one or more times: <br><i>'+summary.wrongQuestions.join('<br>')+'</i></p>';
             }
             document.getElementById('answer').className = 'hide';
           }
